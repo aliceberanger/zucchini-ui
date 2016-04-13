@@ -1,6 +1,8 @@
 package io.zucchiniui.backend.comment.rest;
 
+import io.dropwizard.auth.Auth;
 import io.dropwizard.jersey.PATCH;
+import io.zucchiniui.backend.auth.domain.User;
 import io.zucchiniui.backend.comment.domain.Comment;
 import io.zucchiniui.backend.comment.domain.CommentRepository;
 import io.zucchiniui.backend.shared.domain.ItemReference;
@@ -10,14 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -103,14 +98,17 @@ public class CommentResource {
 
     @POST
     @Path("create")
-    public Response create(@Valid @NotNull final CreateCommentRequest request) {
+    public Response create(
+        @Auth final User user,
+        @Valid @NotNull final CreateCommentRequest request
+    ) {
         final Set<ItemReference> references = new HashSet<>();
         references.addAll(mainReferences);
         references.addAll(extraReferences);
 
         LOGGER.info("Create comment with references {}", references);
 
-        final Comment comment = new Comment(references, request.getContent());
+        final Comment comment = new Comment(references, user.getName(), request.getContent());
         commentRepository.save(comment);
 
         final URI location = UriBuilder.fromUri(baseUri)

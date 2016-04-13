@@ -12,5 +12,9 @@ mongoUri: "mongodb://${MONGO_HOST:-localhost}/${MONGO-DB:-zucchini}?connectTimeo
 logging:
   level: INFO
 
+auth:
+  secret: "${AUTH_SECRET:-fshfhhfhfeoeofeoffzjzjfzjhfhfshhsffpzpzofofeoo}"
+  expiry: 1d
+
 frontend:
   testRunPurgeDelayInDays: 60

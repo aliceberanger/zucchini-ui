@@ -37,6 +37,11 @@ public class Comment extends BaseEntity<String> {
     private String content;
 
     /**
+     * Comment creator;
+     */
+    private String creatorUsername;
+
+    /**
      * Comment references.
      */
     @Embedded(concreteClass = HashSet.class)
@@ -51,13 +56,15 @@ public class Comment extends BaseEntity<String> {
     /**
      * Create a new comment.
      *
-     * @param references References
-     * @param content    Comment content
+     * @param references      References
+     * @param creatorUsername Username of comment creator
+     * @param content         Comment content
      */
-    public Comment(final Iterable<ItemReference> references, final String content) {
+    public Comment(final Iterable<ItemReference> references, final String creatorUsername, final String content) {
         id = UUID.randomUUID().toString();
         date = ZonedDateTime.now();
         this.references = Sets.newHashSet(references);
+        this.creatorUsername = creatorUsername;
         this.content = Objects.requireNonNull(content);
     }
 
@@ -79,6 +86,10 @@ public class Comment extends BaseEntity<String> {
 
     public Set<ItemReference> getReferences() {
         return Collections.unmodifiableSet(references);
+    }
+
+    public String getCreatorUsername() {
+        return creatorUsername;
     }
 
     @Override

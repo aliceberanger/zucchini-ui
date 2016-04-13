@@ -208,6 +208,7 @@ project("${rootProject.name}-backend") {
         apt group: 'org.hibernate', name: 'hibernate-validator-annotation-processor', version: versions.hibernateValidator
 
         compile "io.dropwizard:dropwizard-core:${versions.dropwizard}"
+        compile "io.dropwizard:dropwizard-auth:${versions.dropwizard}"
         compile "ma.glasnost.orika:orika-core:${versions.orika}"
         compile "org.mongodb.morphia:morphia:${versions.morphia}"
         compile "org.mongodb.morphia:morphia-logging-slf4j:${versions.morphia}"
@@ -215,6 +216,9 @@ project("${rootProject.name}-backend") {
         compile "org.springframework:spring-context:${versions.spring}"
         compile "org.eclipse.jetty.websocket:javax-websocket-server-impl:${versions.jetty}"
         compile "org.apache.commons:commons-text:${versions.commonsText}"
+        compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}"
+        compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${versions.jackson}"
+        compile 'com.auth0:java-jwt:2.1.0'
 
         testCompile "org.assertj:assertj-core:${versions.assertj}"
         testCompile "com.pholser:junit-quickcheck-core:${versions.junitQuickcheck}"

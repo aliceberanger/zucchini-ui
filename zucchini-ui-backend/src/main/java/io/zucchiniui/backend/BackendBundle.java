@@ -3,21 +3,27 @@ package io.zucchiniui.backend;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.ConfiguredBundle;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.zucchiniui.backend.auth.domain.User;
+import io.zucchiniui.backend.auth.rest.JWTAuthFilter;
 import io.zucchiniui.backend.support.ddd.rest.ConcurrentEntityModificationExceptionMapper;
 import io.zucchiniui.backend.support.ddd.rest.EntityNotFoundExceptionMapper;
 import io.zucchiniui.backend.support.spring.SpringBundle;
 import io.zucchiniui.backend.support.websocket.WebSocketEnablerBundle;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class BackendBundle implements ConfiguredBundle<BackendConfiguration> {
 
@@ -56,6 +62,17 @@ public class BackendBundle implements ConfiguredBundle<BackendConfiguration> {
         final JerseyEnvironment jerseyEnvironment = environment.jersey();
         jerseyEnvironment.register(new EntityNotFoundExceptionMapper());
         jerseyEnvironment.register(new ConcurrentEntityModificationExceptionMapper());
+
+        jerseyEnvironment.register(new AuthDynamicFeature(
+            new JWTAuthFilter.Builder<>()
+                .setJWTVerifier(configuration.getAuth().createJWTVerifier())
+                .setAuthenticator(credentials -> Optional.of(User.fromJWTClaims(credentials)))
+                .setAuthorizer((principal, role) -> true)
+                .buildAuthFilter()
+        ));
+        jerseyEnvironment.register(RolesAllowedDynamicFeature.class);
+
+        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(User.class));
     }
 
 }
