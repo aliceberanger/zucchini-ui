@@ -16,5 +16,12 @@ auth:
   secret: "${AUTH_SECRET:-fshfhhfhfeoeofeoffzjzjfzjhfhfshhsffpzpzofofeoo}"
   expiry: 1d
 
+userRepository:
+  type: static
+  users:
+    - name: pgentile
+      password: password
+      displayName: Pierre Gentile
+
 frontend:
   testRunPurgeDelayInDays: 60
