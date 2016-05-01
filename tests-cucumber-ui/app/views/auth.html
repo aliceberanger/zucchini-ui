@@ -1,0 +1,21 @@
+<div>
+
+  <ol class="breadcrumb">
+    <li class="active">Identification</li>
+  </ol>
+
+  <h1>Identification</h1>
+
+  <form ng-controller="AuthFormController as authCtrl" ng-submit="authCtrl.auth()">
+    <div class="form-group">
+      <label for="name">Nom d'utilisateur</label>
+      <input type="text" class="form-control" id="name" ng-model="authCtrl.name">
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" class="form-control" id="password" ng-model="authCtrl.password">
+    </div>
+    <button type="submit" class="btn btn-primary">S'identifier</button>
+  </form>
+
+</div>

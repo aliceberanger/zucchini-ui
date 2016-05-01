@@ -43,7 +43,11 @@ public class AuthSpringConfig {
         return new AuthResource<>(
             configuration.getAuth().createJWTSigner(),
             configuration.getAuth().createJWTSignerOptions(),
-            credentials -> userRepository.getByIdAndPassword(credentials.getName(), credentials.getPassword()),
+            credentials -> {
+                final String name = credentials.getName();
+                final String password = credentials.getPassword();
+                return userRepository.findByNameAndPassword(name, password);
+            },
             User::toJWTClaims
         );
     }
