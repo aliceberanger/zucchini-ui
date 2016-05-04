@@ -32,7 +32,14 @@
     };
 
     this.getToken = function () {
-      return $window.localStorage.getItem(storageKey);
+      var token = $window.localStorage.getItem(storageKey);
+      if (token) {
+        if (jwtHelper.isTokenExpired(token)) {
+          this.removeToken();
+          return null;
+        }
+        return token;
+      }
     };
 
     this.removeToken = function () {
@@ -48,6 +55,7 @@
       if (token) {
         return jwtHelper.decodeToken(token);
       }
+      return null;
     };
 
     this.registerListener = function (listener) {
