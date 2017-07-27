@@ -5,11 +5,14 @@ import io.zucchiniui.backend.testrun.dao.TestRunDAO;
 import io.zucchiniui.backend.testrun.domain.TestRun;
 import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 class TestRunRepositoryImpl extends MorphiaQueriableRepository<TestRun, String, TestRunQuery> implements TestRunRepository {
 
+    @Inject
     public TestRunRepositoryImpl(final TestRunDAO dao) {
         super(dao);
     }

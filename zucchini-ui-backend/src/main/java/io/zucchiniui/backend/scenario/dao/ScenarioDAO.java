@@ -5,13 +5,15 @@ import io.zucchiniui.backend.scenario.domain.ScenarioQuery;
 import io.zucchiniui.backend.support.ddd.morphia.MorphiaTypedQueryDAO;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
-@Component
+@Singleton
 public class ScenarioDAO extends MorphiaTypedQueryDAO<Scenario, String, ScenarioQuery> {
 
+    @Inject
     public ScenarioDAO(final Datastore ds) {
         super(ds);
     }

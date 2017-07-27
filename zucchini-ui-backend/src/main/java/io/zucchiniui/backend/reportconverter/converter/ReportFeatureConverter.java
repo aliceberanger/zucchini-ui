@@ -7,8 +7,9 @@ import io.zucchiniui.backend.reportconverter.report.ReportFeature;
 import io.zucchiniui.backend.reportconverter.report.Tag;
 import io.zucchiniui.backend.shared.domain.BasicInfo;
 import io.zucchiniui.backend.shared.domain.Location;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -16,10 +17,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
+@Singleton
 class ReportFeatureConverter {
 
     private static final Pattern LANGUAGE_PATTERN = Pattern.compile("#\\s*language:\\s*(\\S+)\\s*");
+
+    @Inject
+    public ReportFeatureConverter() {
+    }
 
     public Feature convert(final String testRunId, final Optional<String> group, final ReportFeature reportFeature) {
         final String featureKey = ConversionUtils.stringToSha1Sum(reportFeature.getId());

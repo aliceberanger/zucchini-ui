@@ -11,8 +11,9 @@ import io.zucchiniui.backend.scenario.domain.Scenario;
 import io.zucchiniui.backend.scenario.domain.ScenarioBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 
-@Component
+@Singleton
 public class ReportConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportConverter.class);
@@ -29,6 +30,7 @@ public class ReportConverter {
 
     private final ReportScenarioConverter reportScenarioConverter;
 
+    @Inject
     public ReportConverter(
         final ReportFeatureConverter reportFeatureConverter,
         final ReportScenarioConverter reportScenarioConverter

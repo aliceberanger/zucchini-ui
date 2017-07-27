@@ -14,8 +14,9 @@ import io.zucchiniui.backend.testrun.views.TestRunScenarioDiff;
 import io.zucchiniui.backend.testrun.views.TestRunViewAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -39,7 +40,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@Component
+@Singleton
 @Path("/testRuns")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +58,7 @@ public class TestRunResource {
 
     private UriInfo uriInfo;
 
+    @Inject
     public TestRunResource(
         final TestRunRepository testRunRepository,
         final TestRunService testRunService,

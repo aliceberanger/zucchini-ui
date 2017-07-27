@@ -5,13 +5,15 @@ import io.zucchiniui.backend.feature.domain.FeatureQuery;
 import io.zucchiniui.backend.support.ddd.morphia.MorphiaTypedQueryDAO;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
-@Component
+@Singleton
 public class FeatureDAO extends MorphiaTypedQueryDAO<Feature, String, FeatureQuery> {
 
+    @Inject
     public FeatureDAO(final Datastore ds) {
         super(ds);
     }

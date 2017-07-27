@@ -1,12 +1,18 @@
 package io.zucchiniui.backend.scenario.domainimpl;
 
 import io.zucchiniui.backend.feature.domain.FeatureService;
-import io.zucchiniui.backend.scenario.domain.*;
+import io.zucchiniui.backend.scenario.domain.Scenario;
+import io.zucchiniui.backend.scenario.domain.ScenarioRepository;
+import io.zucchiniui.backend.scenario.domain.ScenarioService;
+import io.zucchiniui.backend.scenario.domain.ScenarioStatus;
+import io.zucchiniui.backend.scenario.domain.UpdateScenarioParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 class ScenarioServiceImpl implements ScenarioService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScenarioServiceImpl.class);
@@ -15,6 +21,7 @@ class ScenarioServiceImpl implements ScenarioService {
 
     private final FeatureService featureService;
 
+    @Inject
     public ScenarioServiceImpl(
         final ScenarioRepository scenarioRepository,
         final FeatureService featureService

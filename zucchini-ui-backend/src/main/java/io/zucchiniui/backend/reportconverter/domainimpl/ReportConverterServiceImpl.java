@@ -15,16 +15,17 @@ import io.zucchiniui.backend.scenario.domain.ScenarioService;
 import io.zucchiniui.backend.scenario.domain.ScenarioStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
 
-@Component
+@Singleton
 class ReportConverterServiceImpl implements ReportConverterService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportConverterServiceImpl.class);
@@ -41,12 +42,13 @@ class ReportConverterServiceImpl implements ReportConverterService {
 
     private final ObjectMapper objectMapper;
 
+    @Inject
     public ReportConverterServiceImpl(
         final FeatureRepository featureRepository,
         final FeatureService featureService,
         final ScenarioRepository scenarioRepository,
         final ScenarioService scenarioService, final ReportConverter reportConverter,
-        @Qualifier("reportObjectMapper") final ObjectMapper objectMapper
+        @Named("reportObjectMapper") final ObjectMapper objectMapper
     ) {
         this.featureRepository = featureRepository;
         this.featureService = featureService;

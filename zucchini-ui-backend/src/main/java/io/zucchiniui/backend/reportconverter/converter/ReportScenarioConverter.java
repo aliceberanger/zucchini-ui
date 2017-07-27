@@ -21,17 +21,22 @@ import io.zucchiniui.backend.scenario.domain.StepStatus;
 import io.zucchiniui.backend.shared.domain.Argument;
 import io.zucchiniui.backend.shared.domain.BasicInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@Component
+@Singleton
 class ReportScenarioConverter {
 
     private static final Joiner LINE_JOINER = Joiner.on('\n');
+
+    @Inject
+    public ReportScenarioConverter() {
+    }
 
     public ScenarioBuilder createScenarioBuilder(final Feature parentFeature, final ReportScenario reportScenario) {
 

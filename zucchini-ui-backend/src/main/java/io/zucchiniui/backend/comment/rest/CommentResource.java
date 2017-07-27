@@ -6,8 +6,9 @@ import io.zucchiniui.backend.comment.domain.CommentRepository;
 import io.zucchiniui.backend.shared.domain.ItemReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -40,11 +41,12 @@ public class CommentResource {
 
     private final Set<ItemReference> extraReferences;
 
-    @Component
+    @Singleton
     public static class Factory {
 
         private final CommentRepository commentRepository;
 
+        @Inject
         public Factory(final CommentRepository commentRepository) {
             this.commentRepository = commentRepository;
         }

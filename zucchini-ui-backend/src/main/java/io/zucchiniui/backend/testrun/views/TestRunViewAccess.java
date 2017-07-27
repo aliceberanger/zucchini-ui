@@ -10,8 +10,9 @@ import io.zucchiniui.backend.testrun.domain.TestRun;
 import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import ma.glasnost.orika.BoundMapperFacade;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@Component
+@Singleton
 public class TestRunViewAccess {
 
     private final TestRunRepository testRunRepository;
@@ -30,6 +31,7 @@ public class TestRunViewAccess {
 
     private final BoundMapperFacade<TestRun, TestRunListItem> testRunToListItemMapper;
 
+    @Inject
     public TestRunViewAccess(
         final TestRunRepository testRunRepository,
         final TestRunDAO testRunDAO,

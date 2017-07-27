@@ -7,19 +7,18 @@ import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.zucchiniui.backend.presence.websocket.PresenceEndpoint;
 import io.zucchiniui.backend.support.ddd.rest.EntityNotFoundExceptionMapper;
-import io.zucchiniui.backend.support.spring.SpringBundle;
 import io.zucchiniui.backend.support.websocket.WebSocketEnablerBundle;
+import io.zucchiniui.backend.support.websocket.WebSocketEndpointFactory;
+import io.zucchiniui.backend.support.websocket.WebSocketServletContextListener;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import java.util.EnumSet;
 
 public class BackendBundle implements ConfiguredBundle<BackendConfiguration> {
-
-    private final AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
 
     @Override
     public void initialize(final Bootstrap<?> bootstrap) {
@@ -38,8 +37,9 @@ public class BackendBundle implements ConfiguredBundle<BackendConfiguration> {
         bootstrap.addBundle(new WebSocketEnablerBundle());
 
         // Register Spring context
-        applicationContext.register(BackendSpringConfig.class);
-        bootstrap.addBundle(new SpringBundle(applicationContext));
+        // applicationContext.register(BackendSpringConfig.class);
+        // bootstrap.addBundle(new SpringBundle(applicationContext));
+
     }
 
     @Override
@@ -52,6 +52,21 @@ public class BackendBundle implements ConfiguredBundle<BackendConfiguration> {
         configuration.getMetrics().configure(environment.lifecycle(), environment.metrics());
 
         environment.jersey().register(new EntityNotFoundExceptionMapper());
+
+        final ApplicationComponent component = DaggerApplicationComponent.builder()
+            .applicationModule(new ApplicationModule(configuration, environment))
+            .build();
+
+        environment.jersey().register(component.testRunResource());
+        environment.jersey().register(component.featureResource());
+        environment.jersey().register(component.scenarioResource());
+
+        final WebSocketEndpointFactory webSocketEndpointFactory = new WebSocketEndpointFactory();
+        environment.getApplicationContext().addEventListener(new WebSocketServletContextListener<>(
+            webSocketEndpointFactory,
+            PresenceEndpoint.class,
+            () -> component.requestScopeComponent().presenceEndpoint()
+        ));
     }
 
 }

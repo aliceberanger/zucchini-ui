@@ -8,9 +8,11 @@ import io.zucchiniui.backend.scenario.views.ScenarioStats;
 import io.zucchiniui.backend.scenario.views.ScenarioViewAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 class FeatureServiceImpl implements FeatureService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureServiceImpl.class);
@@ -21,6 +23,7 @@ class FeatureServiceImpl implements FeatureService {
 
     private final ScenarioViewAccess scenarioViewAccess;
 
+    @Inject
     public FeatureServiceImpl(
         final FeatureRepository featureRepository,
         final ScenarioRepository scenarioRepository,

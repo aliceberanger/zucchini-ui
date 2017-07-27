@@ -9,8 +9,9 @@ import io.zucchiniui.backend.feature.views.FeatureHistoryItem;
 import io.zucchiniui.backend.feature.views.FeatureListItem;
 import io.zucchiniui.backend.feature.views.FeatureViewAccess;
 import io.zucchiniui.backend.shared.domain.TagSelection;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@Component
+@Singleton
 @Path("/features")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +37,7 @@ public class FeatureResource {
 
     private final FeatureViewAccess featureViewAccess;
 
+    @Inject
     public FeatureResource(
         final FeatureRepository featureRepository,
         final FeatureService featureService,

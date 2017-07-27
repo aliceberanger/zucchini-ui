@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.zucchiniui.backend.shared.domain.ItemReference;
 import io.zucchiniui.backend.shared.domain.ItemReferenceType;
+import io.zucchiniui.backend.support.dagger.RequestScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -26,8 +25,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@RequestScope
 @ServerEndpoint("/ws/presence")
 public class PresenceEndpoint {
 
@@ -60,6 +58,7 @@ public class PresenceEndpoint {
 
     private ItemReference reference;
 
+    @Inject
     public PresenceEndpoint(final ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }

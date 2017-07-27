@@ -11,8 +11,9 @@ import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import ma.glasnost.orika.BoundMapperFacade;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +28,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
+@Singleton
 public class ScenarioViewAccess {
 
     private final ScenarioDAO scenarioDAO;
@@ -40,6 +41,7 @@ public class ScenarioViewAccess {
 
     private final BoundMapperFacade<Scenario, ScenarioHistoryItemView> scenarioToHistoryItemViewMapper;
 
+    @Inject
     public ScenarioViewAccess(final ScenarioDAO scenarioDAO, final TestRunRepository testRunRepository) {
         this.scenarioDAO = scenarioDAO;
         this.testRunRepository = testRunRepository;

@@ -11,15 +11,16 @@ import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import ma.glasnost.orika.BoundMapperFacade;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
+@Singleton
 public class FeatureViewAccess {
 
     private final FeatureDAO featureDAO;
@@ -32,6 +33,7 @@ public class FeatureViewAccess {
 
     private final BoundMapperFacade<Feature, FeatureListItem> featureToListItemMapper;
 
+    @Inject
     public FeatureViewAccess(
         final FeatureDAO featureDAO,
         final ScenarioViewAccess scenarioViewAccess,

@@ -4,15 +4,18 @@ import io.zucchiniui.backend.feature.domain.FeatureService;
 import io.zucchiniui.backend.testrun.domain.TestRun;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import io.zucchiniui.backend.testrun.domain.TestRunService;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 class TestRunServiceImpl implements TestRunService {
 
     private final TestRunRepository testRunRepository;
 
     private final FeatureService featureService;
 
+    @Inject
     public TestRunServiceImpl(final TestRunRepository testRunRepository, final FeatureService featureService) {
         this.testRunRepository = testRunRepository;
         this.featureService = featureService;

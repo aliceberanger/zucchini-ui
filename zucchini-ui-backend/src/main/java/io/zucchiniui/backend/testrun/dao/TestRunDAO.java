@@ -5,13 +5,15 @@ import io.zucchiniui.backend.testrun.domain.TestRun;
 import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
-@Component
+@Singleton
 public class TestRunDAO extends MorphiaTypedQueryDAO<TestRun, String, TestRunQuery> {
 
+    @Inject
     public TestRunDAO(final Datastore ds) {
         super(ds);
     }

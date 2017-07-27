@@ -5,13 +5,15 @@ import io.zucchiniui.backend.comment.domain.CommentQuery;
 import io.zucchiniui.backend.support.ddd.morphia.MorphiaTypedQueryDAO;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.function.Consumer;
 
-@Component
+@Singleton
 public class CommentDAO extends MorphiaTypedQueryDAO<Comment, String, CommentQuery> {
 
+    @Inject
     public CommentDAO(final Datastore ds) {
         super(ds);
     }

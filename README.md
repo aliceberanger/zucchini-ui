@@ -155,12 +155,15 @@ Architecture
 
 Used frameworks:
 
-* UI project: [React](https://facebook.github.io/react/),
+* UI project:
+  [React](https://facebook.github.io/react/),
   [Redux](http://redux.js.org/),
   [Redux-Forms](http://redux-form.com/),
   [React-Bootstrap](https://react-bootstrap.github.io/)
-* Backend project: [Dropwizard](http://dropwizard.io),
-  [Spring](http://spring.io), [Morphia](http://mongodb.github.io/morphia/),
+* Backend project:
+  [Dropwizard](http://dropwizard.io),
+  [Dagger](https://google.github.io/dagger),
+  [Morphia](http://mongodb.github.io/morphia/),
   [Orika](http://orika-mapper.github.io/orika-docs)
 
 
