@@ -1,59 +1,88 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PieChart from '../../charts/components/PieChart';
+import ChartComponent from '../../charts/components/ChartComponent';
 
 
 export default class StatsPieChart extends React.PureComponent {
 
-  render() {
-    const { stats, total, showDetails } = this.props;
+  static propTypes = {
+    stats: PropTypes.object.isRequired,
+    total: PropTypes.number.isRequired,
+  };
 
-    let series = [
-      {
-        value: stats.passed,
-        className: 'chart-progress-passed',
-      },
-      {
-        value: stats.pending,
-        className: 'chart-progress-pending',
-      },
-      {
-        value: stats.failed,
-        className: 'chart-progress-failed',
-      },
-      {
-        value: stats.notRun,
-        className: 'chart-progress-not-run',
-      },
-      {
-        value: total - stats.count,
-        className: 'chart-progress-others',
-      },
-    ];
+  constructor(props) {
+    super(props);
 
-    series = series.filter(function (serie) {
-      return serie.value > 0;
-    });
-
-    const data = {
-      series,
+    this.state = {
+      data: this.computeChartData(props.stats),
+      options: {
+        animation: {
+          duration: 0,
+        },
+        circumference: Math.PI * 2 * this.computeCompletion(props.stats.count, props.total),
+        legend: {
+          display: false,
+        },
+      },
     };
+  }
 
-    const height = showDetails ? '20rem' : '12rem';
-    const donutWidth = showDetails ? 60 : 30;
+  componentWillReceiveProps(nextProps) {
+    this.setState(prevState => {
+      return {
+        data: this.computeChartData(nextProps.stats),
+        options: {
+          ...prevState.options,
+          circumference: Math.PI * 2 * this.computeCompletion(nextProps.stats.count, nextProps.total),
+        },
+      };
+    });
+  }
 
+  computeChartData(stats) {
+    if (!stats) {
+      return {};
+    }
+
+    return {
+      datasets: [{
+        data: [
+          stats.passed,
+          stats.pending,
+          stats.failed,
+          stats.notRun,
+        ],
+        backgroundColor: [
+          '#5cb85c',
+          '#f0ad4e',
+          '#d9534f',
+          '#777',
+        ],
+      }],
+      labels: [
+        'Succès',
+        'En attente',
+        'Échec',
+        'Non joué',
+      ],
+    };
+  }
+
+  computeCompletion(count, total) {
+    if (total > 0) {
+      return count / total;
+    }
+    return 0;
+  }
+
+  render() {
     return (
-      <div style={{ height }}>
-        <PieChart data={data} total={total} showLabel={showDetails} donutWidth={donutWidth} style={{ height }} />
-      </div>
+      <ChartComponent
+        type='doughnut'
+        data={this.state.data}
+        options={this.state.options} />
     );
   }
 
 }
-
-StatsPieChart.propTypes = {
-  stats: PropTypes.object.isRequired,
-  total: PropTypes.number.isRequired,
-  showDetails: PropTypes.bool.isRequired,
-};

@@ -103,17 +103,17 @@ export default class TestRunPage extends React.Component {
             </Button>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="tags" to={{ pathname: `/test-runs/${testRunId}/tags` }}>
+            <ButtonLink glyph="tags" to={`/test-runs/${testRunId}/tags`}>
               Tags
             </ButtonLink>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="exclamation-sign" to={{ pathname: `/test-runs/${testRunId}/failures` }}>
+            <ButtonLink glyph="exclamation-sign" to={`/test-runs/${testRunId}/failures`}>
               Échecs
             </ButtonLink>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="list-alt" to={{ pathname: `/test-runs/${testRunId}/diff` }}>
+            <ButtonLink glyph="list-alt" to={`/test-runs/${testRunId}/diff`}>
               Comparer avec un autre tir
             </ButtonLink>
           </ButtonGroup>
