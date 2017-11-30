@@ -20,6 +20,8 @@ plugins {
     id 'org.ajoberstar.grgit' version '1.5.1' apply false
     id 'net.ltgt.apt' version '0.9' apply false
     id 'net.ltgt.errorprone' version '0.0.10' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.2.0' apply false
+    id "org.jetbrains.kotlin.plugin.spring" version "1.2.0" apply false
 }
 
 /**
@@ -67,6 +69,7 @@ allprojects {
         guava             : '23.1-jre',
         commonsText       : '1.1',
         hibernateValidator: '5.4.1.Final',
+        jackson           : '2.9.1',
     ]
 
     ext.getDockerTags = {
@@ -201,11 +204,17 @@ allprojects {
 project("${rootProject.name}-backend") {
 
     apply plugin: 'java'
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
     apply plugin: 'net.ltgt.apt'
 
     dependencies {
 
         apt group: 'org.hibernate', name: 'hibernate-validator-annotation-processor', version: versions.hibernateValidator
+
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.0"
+        compile "org.jetbrains.kotlin:kotlin-reflect:1.2.0"
+        compile "com.fasterxml.jackson.module:jackson-module-kotlin:${versions.jackson}"
 
         compile "io.dropwizard:dropwizard-core:${versions.dropwizard}"
         compile "ma.glasnost.orika:orika-core:${versions.orika}"
@@ -220,6 +229,12 @@ project("${rootProject.name}-backend") {
         testCompile "com.pholser:junit-quickcheck-core:${versions.junitQuickcheck}"
         testCompile "com.pholser:junit-quickcheck-generators:${versions.junitQuickcheck}"
 
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = '1.8'
+        }
     }
 
     task runBackend(type: JavaExec, description: 'Run backend server') {
